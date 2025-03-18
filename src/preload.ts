@@ -19,6 +19,8 @@ declare global {
       diagnoseAudioIssues: () => Promise<{ issues: string[], solutions: string[] }>;
       getEphemeralToken: ()=> Promise<any>;
       saveTextToFile: (content: string, filename: string) => Promise<string | null>;
+      updateSubtitle: (text: string) => void;
+      onSubtitleText: (callback: (text: string) => void) => void;
     };
     require: (module: string) => any;
   }
@@ -83,6 +85,12 @@ contextBridge.exposeInMainWorld('electron', {
   },
   saveTextToFile: async (content: string, filename: string) => {
     return await ipcRenderer.invoke('save-text-to-file', content, filename);
+  },
+  updateSubtitle: (text: string) => {
+    ipcRenderer.send('update-subtitle', text);
+  },
+  onSubtitleText: (callback: (text: string) => void) => {
+    ipcRenderer.on('subtitle-text', (_, text) => callback(text));
   }
 });
 

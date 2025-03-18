@@ -5,6 +5,7 @@ import { macOsAudioRecorder } from './services/macOsAudioRecorder';
 
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
+let subtitlesWindow: BrowserWindow | null = null;
 
 // Проверка доступа к микрофону и записи экрана для macOS
 async function checkMacOSPermissions() {
@@ -41,6 +42,38 @@ function createWindow() {
   mainWindow.loadFile('dist/index.html');
   
   mainWindow.webContents.openDevTools();
+}
+
+function createSubtitlesWindow() {
+  if (subtitlesWindow) {
+    return;
+  }
+  
+  // Получаем размеры основного экрана
+  const { width, height } = require('electron').screen.getPrimaryDisplay().workAreaSize;
+  
+  subtitlesWindow = new BrowserWindow({
+    width: 600,
+    x: Math.floor((width - 800) / 2), // По центру экрана
+    y: height - 180, // В нижней части экрана
+    transparent: true, // Прозрачный фон
+    frame: false,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  });
+  
+  subtitlesWindow.loadFile('dist/subtitles.html');
+
+  subtitlesWindow.setIgnoreMouseEvents(true);
+  
+  subtitlesWindow.on('closed', () => {
+    subtitlesWindow = null;
+  });
 }
 
 app.whenReady().then(async () => {
@@ -119,6 +152,9 @@ ipcMain.on('app-close', () => {
 
 ipcMain.on('start-recording', async () => {
   try {
+    // Создаем окно с субтитрами при начале записи
+    createSubtitlesWindow();
+    
     if (mainWindow) {
       mainWindow.webContents.send('transcription', 'Запись начата');
     }
@@ -149,6 +185,12 @@ ipcMain.handle('get-ephemeral-token', async () => {
 
 ipcMain.on('stop-recording', async () => {
   try {
+    // Закрываем окно с субтитрами при остановке записи
+    if (subtitlesWindow) {
+      subtitlesWindow.close();
+      subtitlesWindow = null;
+    }
+    
     if (mainWindow) {
       mainWindow.webContents.send('transcription', 'Запись остановлена');
       mainWindow.webContents.send('notes', 'Запись сохранена');
@@ -206,5 +248,12 @@ ipcMain.handle('save-text-to-file', async (event, content: string, filename: str
   } catch (error) {
     console.error('Ошибка при сохранении файла с ответами:', error);
     return null;
+  }
+});
+
+// Добавляем новый обработчик для обновления субтитров
+ipcMain.on('update-subtitle', (event, text) => {
+  if (subtitlesWindow && !subtitlesWindow.isDestroyed()) {
+    subtitlesWindow.webContents.send('subtitle-text', text);
   }
 });

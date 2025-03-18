@@ -53,6 +53,12 @@ const rendererConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/renderer/index.html',
+      filename: 'index.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/renderer/subtitles.html',
+      filename: 'subtitles.html',
+      chunks: []
     }),
   ],
 };

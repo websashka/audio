@@ -121,12 +121,6 @@ const VoiceRecorder: React.FC = () => {
 
       <Timer>{timer}</Timer>
 
-      {currentSubtitle &&(
-        <SubtitlesContainer>
-          {currentSubtitle}
-        </SubtitlesContainer>
-      )}
-
       <ResponsesList
         responses={openaiResponses}
         filter={responseFilter}

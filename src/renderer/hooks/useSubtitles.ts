@@ -1,9 +1,21 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { OpenAIResponse } from '../types';
 import openaiService from '../services/openai';
 
 export function useSubtitles() {
   const [currentSubtitle, setCurrentSubtitle] = useState<string>('');
+
+  // Отправка текста в окно субтитров
+  const sendToSubtitlesWindow = useCallback((text: string) => {
+    window.electron.updateSubtitle(text);
+  }, []);
+
+  // Эффект для отправки субтитров в отдельное окно
+  useEffect(() => {
+    if (currentSubtitle) {
+      sendToSubtitlesWindow(currentSubtitle);
+    }
+  }, [currentSubtitle, sendToSubtitlesWindow]);
 
   // Обработка сообщения от OpenAI и извлечение субтитров
   const handleMessage = useCallback((data: string) => {
@@ -52,23 +64,31 @@ export function useSubtitles() {
       if (parsedData.type === 'error' || parsedData.status === 'error') {
         const errorMessage = parsedData.error?.message || 'Ошибка соединения';
         setCurrentSubtitle(`⚠️ ${errorMessage}`);
-        setTimeout(() => setCurrentSubtitle(''), 3000);
+        setTimeout(() => {
+          setCurrentSubtitle('');
+          sendToSubtitlesWindow(''); // Очищаем субтитры в отдельном окне
+        }, 3000);
       }
     } catch (error) {
       console.error('Ошибка при обработке сообщения для субтитров:', error);
     }
-  }, []);
+  }, [sendToSubtitlesWindow]);
   
   // Очистка субтитров
   const clearSubtitles = useCallback(() => {
     setCurrentSubtitle('');
-  }, []);
+    sendToSubtitlesWindow(''); // Очищаем субтитры в отдельном окне
+  }, [sendToSubtitlesWindow]);
   
   // Установка субтитров с таймером
   const setTemporarySubtitle = useCallback((text: string, duration: number = 3000) => {
     setCurrentSubtitle(text);
-    setTimeout(() => setCurrentSubtitle(''), duration);
-  }, []);
+    
+    setTimeout(() => {
+      setCurrentSubtitle('');
+      sendToSubtitlesWindow(''); // Очищаем субтитры в отдельном окне
+    }, duration);
+  }, [sendToSubtitlesWindow]);
   
   return {
     currentSubtitle,

@@ -17,7 +17,7 @@ export function useAudio() {
       setDesktopSources(filteredDesktopSources as AudioDevice[]);
       
       if (filteredDesktopSources.length > 0) {
-        const entireScreen = filteredDesktopSources.find(source => source.label === "Background Music (Virtual)");
+        const entireScreen = filteredDesktopSources.find(source => source.label.includes("BlackHole"));
         if (entireScreen) {
           setSelectedSource(entireScreen.deviceId);
         } else {

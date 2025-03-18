@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Субтитры</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      user-select: none;
+      -webkit-app-region: drag;
+    }
+    
+    #subtitles-container {
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 500;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      max-width: 800px;
+      text-align: center;
+      min-height: 20px;
+      transition: opacity 0.5s;
+      opacity: 0;
+    }
+    
+    #subtitles-container.active {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="subtitles-container"></div>
+  
+  <script>
+    // Получаем контейнер для субтитров
+    const subtitlesContainer = document.getElementById('subtitles-container');
+    
+    // Таймер для автоматического скрытия субтитров
+    let hideTimeout = null;
+    
+    // Обработчик сообщений от основного процесса
+    window.electron.onSubtitleText((text) => {
+      if (!text) {
+        subtitlesContainer.classList.remove('active');
+        return;
+      }
+      
+      subtitlesContainer.textContent = text;
+      subtitlesContainer.classList.add('active');
+      
+      // Очищаем предыдущий таймер, если он есть
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+      }
+      
+      // Автоматически скрываем субтитры через некоторое время бездействия
+      hideTimeout = setTimeout(() => {
+        subtitlesContainer.classList.remove('active');
+      }, 10000);
+    });
+  </script>
+</body>
+</html> 
