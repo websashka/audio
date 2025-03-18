@@ -130,6 +130,23 @@ ipcMain.on('start-recording', async () => {
   }
 });
 
+ipcMain.handle('get-ephemeral-token', async () => {
+  const r = await fetch("https://api.openai.com/v1/realtime/sessions", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer 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`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-realtime-preview-2024-12-17",
+      voice: "verse",
+    }),
+  });
+  const data = await r.json();
+
+  return data;
+});
+
 ipcMain.on('stop-recording', async () => {
   try {
     if (mainWindow) {
@@ -173,5 +190,21 @@ ipcMain.on('recording-data', async (event, buffer: ArrayBuffer) => {
     if (mainWindow) {
       mainWindow.webContents.send('recording-error', 'Ошибка при сохранении записи');
     }
+  }
+});
+
+ipcMain.handle('save-text-to-file', async (event, content: string, filename: string) => {
+  try {
+    const timestamp = new Date().toISOString().replace(/:/g, '-');
+    const downloadsPath = app.getPath('downloads');
+    const filePath = path.join(downloadsPath, filename);
+    
+    fs.writeFileSync(filePath, content, 'utf-8');
+    console.log('Файл с ответами сохранен:', filePath);
+    
+    return filePath;
+  } catch (error) {
+    console.error('Ошибка при сохранении файла с ответами:', error);
+    return null;
   }
 });

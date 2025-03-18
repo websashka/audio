@@ -17,6 +17,8 @@ declare global {
       checkAudioDrivers: () => Promise<{ hasBlackhole: boolean, hasSoundflower: boolean }>;
       onAudioDriverInfo: (callback: (info: string) => void) => void;
       diagnoseAudioIssues: () => Promise<{ issues: string[], solutions: string[] }>;
+      getEphemeralToken: ()=> Promise<any>;
+      saveTextToFile: (content: string, filename: string) => Promise<string | null>;
     };
     require: (module: string) => any;
   }
@@ -75,6 +77,12 @@ contextBridge.exposeInMainWorld('electron', {
   },
   diagnoseAudioIssues: async () => {
     return await ipcRenderer.invoke('diagnose-audio-issues');
+  },
+  getEphemeralToken: async () => {
+    return await ipcRenderer.invoke('get-ephemeral-token');
+  },
+  saveTextToFile: async (content: string, filename: string) => {
+    return await ipcRenderer.invoke('save-text-to-file', content, filename);
   }
 });
 
