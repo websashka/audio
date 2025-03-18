@@ -1,0 +1,7 @@
+/dist
+/node_modules
+/build
+/dist
+/dist-electron
+/dist-electron-build
+/dist-electron-build-main
