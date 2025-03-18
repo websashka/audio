@@ -163,6 +163,8 @@ export const ErrorMessage = styled.div`
 export const SubtitlesContainer = styled.div`
   background: rgba(0, 0, 0, 0.7);
   color: white;
+  position: absolute;
+  bottom: 50px;
   padding: 10px 16px;
   border-radius: 8px;
   margin: 0 16px 15px;

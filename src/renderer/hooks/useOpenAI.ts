@@ -18,7 +18,7 @@ export function useOpenAI() {
   const audioElement = useRef<HTMLAudioElement | null>(null);
   const responsesContainerRef = useRef<HTMLDivElement>(null);
   
-  const { handleMessage, clearSubtitles } = useSubtitles();
+  const { handleMessage, clearSubtitles, currentSubtitle, setTemporarySubtitle } = useSubtitles();
   
   // Начало записи и подключение к OpenAI
   const startRecording = useCallback(async (selectedSource: string) => {
@@ -294,6 +294,8 @@ export function useOpenAI() {
     sendTextMessage,
     clearResponses,
     saveResponsesToFile,
-    scrollToLatestResponse
+    scrollToLatestResponse,
+    currentSubtitle,
+    setTemporarySubtitle
   };
 } 

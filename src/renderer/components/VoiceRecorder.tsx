@@ -24,7 +24,6 @@ import AudioTroubleshooting from './ui/AudioTroubleshooting';
 import { useAudio } from '../hooks/useAudio';
 import { useOpenAI } from '../hooks/useOpenAI';
 import { useTimer } from '../hooks/useTimer';
-import { useSubtitles } from '../hooks/useSubtitles';
 
 const VoiceRecorder: React.FC = () => {
   const [activeTab, setActiveTab] = React.useState<'Meeting' | 'Note'>('Meeting');
@@ -58,11 +57,11 @@ const VoiceRecorder: React.FC = () => {
     updateSessionSettings,
     clearResponses,
     saveResponsesToFile,
-    scrollToLatestResponse
+    scrollToLatestResponse,
+    currentSubtitle
   } = useOpenAI();
   
   const { timer, startTimer, stopTimer } = useTimer();
-  const { currentSubtitle } = useSubtitles();
   
   // Запуск записи
   const startRecording = async () => {
@@ -122,7 +121,7 @@ const VoiceRecorder: React.FC = () => {
 
       <Timer>{timer}</Timer>
 
-      {isRecording && currentSubtitle && (
+      {currentSubtitle &&(
         <SubtitlesContainer>
           {currentSubtitle}
         </SubtitlesContainer>

@@ -20,6 +20,34 @@ export function useSubtitles() {
         }
       }
       
+      // Обработка сообщений с текстовым содержимым
+      if (parsedData.message?.content) {
+        setCurrentSubtitle(parsedData.message.content);
+        console.log('Отображаем субтитры из message.content:', parsedData.message.content);
+        return;
+      }
+      
+      // Обработка альтернативного формата сообщений
+      if (parsedData.item?.content && Array.isArray(parsedData.item.content)) {
+        const textContent = parsedData.item.content
+          .filter((c: any) => c.type === 'text' || c.type === 'input_text')
+          .map((c: any) => c.text)
+          .join(' ');
+        
+        if (textContent) {
+          setCurrentSubtitle(textContent);
+          console.log('Отображаем субтитры из item.content:', textContent);
+          return;
+        }
+      }
+      
+      // Обработка прямого текстового контента
+      if (typeof parsedData.content === 'string') {
+        setCurrentSubtitle(parsedData.content);
+        console.log('Отображаем субтитры из content:', parsedData.content);
+        return;
+      }
+      
       // Обработка ошибок - показываем сообщение об ошибке и автоматически скрываем
       if (parsedData.type === 'error' || parsedData.status === 'error') {
         const errorMessage = parsedData.error?.message || 'Ошибка соединения';
