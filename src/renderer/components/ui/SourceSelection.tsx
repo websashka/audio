@@ -22,9 +22,9 @@ const SourceSelection: React.FC<SourceSelectionProps> = ({
       <DeviceInfo>
         <span>🔊</span>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontWeight: 500 }}>Системный звук</span>
+          <span style={{ fontWeight: 500 }}>System Audio</span>
           <span style={{ fontSize: '13px', color: '#666' }}>
-            {isMacOS ? 'Запись системного звука macOS' : 'Захват звука системы'}
+            {isMacOS ? 'macOS system audio recording' : 'System audio capture'}
           </span>
         </div>
         <span style={{ marginLeft: 'auto', color: '#4285f4', fontWeight: 500 }}>On</span>
@@ -48,9 +48,9 @@ const SourceSelection: React.FC<SourceSelectionProps> = ({
       <DeviceInfo>
         <span>🔊</span>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontWeight: 500 }}>Системный звук</span>
+          <span style={{ fontWeight: 500 }}>System Audio</span>
           <span style={{ fontSize: '13px', color: '#666' }}>
-            {isMacOS ? 'Запись системного звука macOS' : 'Захват звука системы'}
+            {isMacOS ? 'macOS system audio recording' : 'System audio capture'}
           </span>
         </div>
         <span style={{ marginLeft: 'auto', color: '#4285f4', fontWeight: 500 }}>On</span>

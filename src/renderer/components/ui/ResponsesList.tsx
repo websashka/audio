@@ -42,17 +42,17 @@ const ResponsesList: React.FC<ResponsesListProps> = ({
   return (
     <ResponsesContainer ref={containerRef}>
       <ResponseHeader>
-        <div style={{ fontWeight: 'bold' }}>Ответы от OpenAI:</div>
+        <div style={{ fontWeight: 'bold' }}>Responses from OpenAI:</div>
         <div>
           <NoButton 
             onClick={onSave}
             style={{ marginRight: '10px' }}
             disabled={responses.length === 0}
           >
-            Сохранить
+            Save
           </NoButton>
           <NoButton onClick={onClear}>
-            Очистить
+            Clear
           </NoButton>
         </div>
       </ResponseHeader>
@@ -62,25 +62,25 @@ const ResponsesList: React.FC<ResponsesListProps> = ({
           active={filter === 'all'}
           onClick={() => setFilter('all')}
         >
-          Все
+          All
         </FilterButton>
         <FilterButton
           active={filter === 'message'}
           onClick={() => setFilter('message')}
         >
-          Сообщения
+          Messages
         </FilterButton>
         <FilterButton
           active={filter === 'error'}
           onClick={() => setFilter('error')}
         >
-          Ошибки
+          Errors
         </FilterButton>
         <FilterButton
           active={filter === 'other'}
           onClick={() => setFilter('other')}
         >
-          События
+          Events
         </FilterButton>
       </ResponseFilterContainer>
       
@@ -91,8 +91,8 @@ const ResponsesList: React.FC<ResponsesListProps> = ({
             <ResponseItemHeader>
               <div>
                 <span>{
-                  response.type === 'error' ? 'Ошибка' : 
-                  response.type === 'other' ? 'Событие' : 'Сообщение'
+                  response.type === 'error' ? 'Error' : 
+                  response.type === 'other' ? 'Event' : 'Message'
                 }</span>
                 {response.eventType && (
                   <span style={{ marginLeft: '6px', fontSize: '11px', color: '#888' }}>

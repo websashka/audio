@@ -61,7 +61,7 @@ export function useAudio() {
       if (isMacOS) {
         window.electron.checkAudioDrivers().then(drivers => {
           if (!drivers.hasBlackhole && !drivers.hasSoundflower) {
-            setAudioDriverMessage('Для лучшей записи системного звука в macOS рекомендуется установить BlackHole или Soundflower');
+            setAudioDriverMessage('For better system audio recording on macOS, it is recommended to install BlackHole or Soundflower.');
           }
         });
       }

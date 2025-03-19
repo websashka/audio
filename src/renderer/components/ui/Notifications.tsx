@@ -18,7 +18,7 @@ const Notifications: React.FC<NotificationsProps> = ({
     <>
       {showSaveConfirmation && savedFilePath && (
         <SaveConfirmation>
-          Запись сохранена в {savedFilePath}
+          Recording saved to {savedFilePath}
         </SaveConfirmation>
       )}
 

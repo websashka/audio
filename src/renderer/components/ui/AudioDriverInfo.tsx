@@ -19,7 +19,7 @@ const AudioDriverInfo: React.FC<AudioDriverInfoProps> = ({
       {audioDriverMessage}
       {isMacOS && (
         <div style={{ marginTop: '5px' }}>
-          Рекомендуемые драйверы:
+          Recommended drivers:
           <ul style={{ margin: '5px 0' }}>
             <li>
               <a

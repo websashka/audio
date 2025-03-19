@@ -20,15 +20,15 @@ const AudioTroubleshooting: React.FC<AudioTroubleshootingProps> = ({
   
   return (
     <AudioTroubleshootingLink onClick={onOpenAudioSettings}>
-      Проблемы с захватом звука? Откройте <span style={{ color: '#4285f4' }}>настройки звука</span>
+      Audio capture issues? Open <span style={{ color: '#4285f4' }}>sound settings</span>
       <div style={{ marginTop: '5px' }}>
-        или <DiagnosticLink
+        or <DiagnosticLink
           onClick={(e) => {
             e.stopPropagation();
             onRunDiagnostic();
           }}
         >
-          запустите диагностику
+          run diagnostics
         </DiagnosticLink>
       </div>
     </AudioTroubleshootingLink>

@@ -155,13 +155,13 @@ const VoiceRecorder: React.FC = () => {
 
       <ActionBar>
         <ActionButton>
-          📝 Заметки
+          📝 Notes
         </ActionButton>
         <ActionButton>
-          📸 Скриншот
+          📸 Screenshot
         </ActionButton>
         <ActionButton>
-          ⚙️ Настройки
+          ⚙️ Settings
         </ActionButton>
       </ActionBar>
     </RecorderContainer>

@@ -18,11 +18,11 @@ async function checkMacOSPermissions() {
     
     // На macOS запрос на запись экрана не может быть сделан программно
     // и будет запрошен системой при первой попытке записи
-    console.log('Статус доступа к микрофону:', systemPreferences.getMediaAccessStatus('microphone'));
+    console.log('Microphone access status:', systemPreferences.getMediaAccessStatus('microphone'));
     
     // Проверяем, есть ли доступ к файлу TCC.db, который может указывать на наличие разрешений
     const hasPermissions = macOsAudioRecorder.checkPermissions();
-    console.log('Предположительное наличие разрешений на запись экрана:', hasPermissions);
+    console.log('Presumed screen recording permissions:', hasPermissions);
   }
 }
 
@@ -99,7 +99,7 @@ app.whenReady().then(async () => {
         thumbnail: source.thumbnail.toDataURL()
       }));
     } catch (error) {
-      console.error('Ошибка при получении источников экрана:', error);
+      console.error('Error getting screen sources:', error);
       return [];
     }
   });
@@ -133,8 +133,8 @@ app.whenReady().then(async () => {
       return await macOsAudioRecorder.diagnoseAudioIssues();
     }
     return { 
-      issues: ['Функция диагностики доступна только на macOS'], 
-      solutions: ['Убедитесь, что ваш браузер имеет доступ к аудио'] 
+      issues: ['Function is available only on macOS'], 
+      solutions: ['Ensure your browser has access to audio'] 
     };
   });
 });
@@ -156,12 +156,12 @@ ipcMain.on('start-recording', async () => {
     createSubtitlesWindow();
     
     if (mainWindow) {
-      mainWindow.webContents.send('transcription', 'Запись начата');
+      mainWindow.webContents.send('transcription', 'Recording started');
     }
   } catch (error) {
     console.error('Error starting recording:', error);
     if (mainWindow) {
-      mainWindow.webContents.send('transcription', 'Ошибка при начале записи');
+      mainWindow.webContents.send('transcription', 'Error starting recording');
     }
   }
 });
@@ -192,20 +192,20 @@ ipcMain.on('stop-recording', async () => {
     }
     
     if (mainWindow) {
-      mainWindow.webContents.send('transcription', 'Запись остановлена');
-      mainWindow.webContents.send('notes', 'Запись сохранена');
+      mainWindow.webContents.send('transcription', 'Recording stopped');
+      mainWindow.webContents.send('notes', 'Recording saved');
     }
   } catch (error) {
     console.error('Error stopping recording:', error);
     if (mainWindow) {
-      mainWindow.webContents.send('transcription', 'Ошибка при остановке записи');
+      mainWindow.webContents.send('transcription', 'Error stopping recording');
     }
   }
 });
 
 ipcMain.on('recording-data', async (event, buffer: ArrayBuffer) => {
   try {
-    console.log("Получены данные записи, размер:", buffer.byteLength);
+    console.log("Received recording data, size:", buffer.byteLength);
     
     let filePath: string;
     
@@ -230,7 +230,7 @@ ipcMain.on('recording-data', async (event, buffer: ArrayBuffer) => {
   } catch (error) {
     console.error('Error saving recording:', error);
     if (mainWindow) {
-      mainWindow.webContents.send('recording-error', 'Ошибка при сохранении записи');
+      mainWindow.webContents.send('recording-error', 'Error saving recording');
     }
   }
 });
@@ -242,11 +242,11 @@ ipcMain.handle('save-text-to-file', async (event, content: string, filename: str
     const filePath = path.join(downloadsPath, filename);
     
     fs.writeFileSync(filePath, content, 'utf-8');
-    console.log('Файл с ответами сохранен:', filePath);
+    console.log('Answers file saved:', filePath);
     
     return filePath;
   } catch (error) {
-    console.error('Ошибка при сохранении файла с ответами:', error);
+    console.error('Error saving answers file:', error);
     return null;
   }
 });

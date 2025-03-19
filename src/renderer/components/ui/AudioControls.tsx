@@ -32,16 +32,16 @@ const AudioControls: React.FC<AudioControlsProps> = ({
       {isRecording ? (
         <ActionButtonsContainer>
           <StopButton onClick={stopRecording}>
-            Остановить запись
+            Stop Recording
           </StopButton>
 
           <VadSettingsContainer>
             <VadSettingsTitle>
-              Настройка VAD (обнаружения тишины)
+              VAD Settings (Voice Activity Detection)
             </VadSettingsTitle>
             
             <VadSettingsSlider>
-              <span style={{ fontSize: '13px' }}>Длительность тишины (мс):</span>
+              <span style={{ fontSize: '13px' }}>Silence Duration (ms):</span>
               <input 
                 type="range" 
                 min="200" 
@@ -55,17 +55,17 @@ const AudioControls: React.FC<AudioControlsProps> = ({
             </VadSettingsSlider>
             
             <VadSettingsHelp>
-              Чем выше значение, тем дольше тишина перед завершением речи
+              Higher value means longer silence before ending speech detection
             </VadSettingsHelp>
           </VadSettingsContainer>
           
           <ApplySettingsButton onClick={updateSessionSettings}>
-            Применить настройки обнаружения тишины
+            Apply Silence Detection Settings
           </ApplySettingsButton>
         </ActionButtonsContainer>
       ) : (
         <RecordButton onClick={startRecording}>
-          Начать запись
+          Start Recording
         </RecordButton>
       )}
     </>

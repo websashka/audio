@@ -18,11 +18,11 @@ const DiagnosticInfo: React.FC<DiagnosticInfoProps> = ({
   
   return (
     <DiagnosticContainer>
-      <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>Результаты диагностики:</div>
+      <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>Diagnostic Results:</div>
       
       {diagnosticResults.issues.length > 0 && (
         <>
-          <div style={{ fontWeight: 500 }}>Обнаруженные проблемы:</div>
+          <div style={{ fontWeight: 500 }}>Detected Issues:</div>
           <ul style={{ margin: '5px 0' }}>
             {diagnosticResults.issues.map((issue, index) => (
               <li key={index}>{issue}</li>
@@ -33,7 +33,7 @@ const DiagnosticInfo: React.FC<DiagnosticInfoProps> = ({
       
       {diagnosticResults.solutions.length > 0 && (
         <>
-          <div style={{ fontWeight: 500, marginTop: '5px' }}>Рекомендации:</div>
+          <div style={{ fontWeight: 500, marginTop: '5px' }}>Recommendations:</div>
           <ul style={{ margin: '5px 0' }}>
             {diagnosticResults.solutions.map((solution, index) => (
               <li key={index}>{solution}</li>
@@ -43,7 +43,7 @@ const DiagnosticInfo: React.FC<DiagnosticInfoProps> = ({
       )}
       
       <DiagnosticCloseButton onClick={onClose}>
-        Закрыть
+        Close
       </DiagnosticCloseButton>
     </DiagnosticContainer>
   );
