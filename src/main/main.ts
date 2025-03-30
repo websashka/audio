@@ -170,7 +170,7 @@ ipcMain.handle('get-ephemeral-token', async () => {
   const r = await fetch("https://api.openai.com/v1/realtime/sessions", {
     method: "POST",
     headers: {
-      "Authorization": `Bearer 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`,
+      "Authorization": `Bearer ${process.env.API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
